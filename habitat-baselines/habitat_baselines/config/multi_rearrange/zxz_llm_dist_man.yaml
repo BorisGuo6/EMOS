@@ -42,7 +42,7 @@ habitat_baselines:
     _target_: habitat_baselines.rl.multi_agent.habitat_mas_evaluator.HabitatMASEvaluator
 
   image_dir: "video_multi/dist_man/image_dir/"
-  video_dir: "video_multi/dist_man"
+  video_dir: "video_multi/dist_man_test"
 
   eval:
     should_load_ckpt: False

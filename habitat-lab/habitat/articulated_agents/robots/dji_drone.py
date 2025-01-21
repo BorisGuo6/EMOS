@@ -24,7 +24,7 @@ class DJIDrone(MobileManipulator):
             ee_offset=[mn.Vector3(0, 0, 0)],
             ee_links=[0],
             ee_constraint=np.array([[[-np.inf, np.inf], [-np.inf, np.inf], [-np.inf, np.inf]]], dtype=np.float32),
-            cameras={                
+            cameras={
                 # "head": ArticulatedAgentCameraParams(
                 #     cam_offset_pos=mn.Vector3(0.0, 0.0, 0.0),
                 #     cam_look_at_pos=mn.Vector3(1.0, 0.0, 1.0),
@@ -37,9 +37,14 @@ class DJIDrone(MobileManipulator):
                     cam_look_at_pos=mn.Vector3(1.0, -1.0, 0.0),
                     attached_link_id=-1,
                 ),
+                # "third": ArticulatedAgentCameraParams(
+                #     cam_offset_pos=mn.Vector3(-0.5, 1.7, -0.5),
+                #     cam_look_at_pos=mn.Vector3(1, 0.0, 0.75),
+                #     attached_link_id=-1,
+                # ),
                 "third": ArticulatedAgentCameraParams(
-                    cam_offset_pos=mn.Vector3(-0.5, 1.7, -0.5),
-                    cam_look_at_pos=mn.Vector3(1, 0.0, 0.75),
+                    cam_offset_pos=mn.Vector3(1., 0.9, 0.5),
+                    cam_look_at_pos=mn.Vector3(-1.5, 0.0, -0.75),
                     attached_link_id=-1,
                 ),
                 "top": ArticulatedAgentCameraParams(
@@ -60,7 +65,7 @@ class DJIDrone(MobileManipulator):
             base_offset=mn.Vector3(0, -height, 0),
             base_link_names={"m100_base_link"},
         )
-    
+
     @property
     def base_transformation(self):
         add_rot = mn.Matrix4.rotation(
@@ -81,12 +86,11 @@ class DJIDrone(MobileManipulator):
             limit_robo_joints,
             fixed_base,
         )
-    
+
     def reconfigure(self) -> None:
         super().reconfigure()
-        # Disable Drone's dynamics and collision by default 
+        # Disable Drone's dynamics and collision by default
         self.sim_obj.motion_type = MotionType.KINEMATIC
         # self.sim_obj.is_collidable = False # exception
-        
-        
-    
+
+

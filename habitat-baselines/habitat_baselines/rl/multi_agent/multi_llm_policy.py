@@ -55,7 +55,7 @@ def create_leader_prompt(robot_resume):
         "Remember you must include the brackets and you MUST include all the robots in your response.\n"
         'If you think a robot should not have a subtask, you can assign it "Nothing to do".\n'
     )
-    
+
     return LEADER_SYSTEM_PROMPT_TEMPLATE.format(
         robot_resume=robot_resume) + FORMAT_INSTRUCTION
 
@@ -69,9 +69,9 @@ def create_leader_start_message(task_description, scene_description):
         '"""\n{scene_description}\n"""\n\n'
         "Now you should assign subtasks to each agent based on their capabilities, following the format in the system prompt."
     )
-    
+
     return LEADER_MESSAGE_TEMPLATE.format(
-        task_description=task_description, 
+        task_description=task_description,
         scene_description=scene_description) # + FORMAT_INSTRUCTION
 
 def create_robot_prompt(robot_type, robot_key, capabilities):
@@ -117,7 +117,7 @@ def create_robot_start_message(task_description, scene_description, compute_path
         ROBOT_GROUP_DISCUSS_MESSAGE_TEMPLATE += COMPUTE_PATH
 
     return ROBOT_GROUP_DISCUSS_MESSAGE_TEMPLATE.format(
-        task_description=task_description, 
+        task_description=task_description,
         scene_description=scene_description)
 
 
@@ -194,7 +194,7 @@ DISCUSSION_TOOLS = []
 
 
 def group_discussion(
-    robot_resume: dict, scene_description: str, task_description: str, 
+    robot_resume: dict, scene_description: str, task_description: str,
     save_chat_history=True, save_chat_history_dir="./chat_history_output", episode_id=-1
 ) -> dict[str, AgentArguments]:
     compute_path = "regions_description" in scene_description
@@ -223,7 +223,7 @@ def group_discussion(
     #     robot_resume[robot]["robot_id"]: agents[robot] for robot in robot_resume
     # }
     leader_start_message = create_leader_start_message(
-        task_description=task_description, 
+        task_description=task_description,
         scene_description=scene_description
     )
     response = leader.chat(leader_start_message)
@@ -284,7 +284,7 @@ def group_discussion(
         hydra_cfg = HydraConfig.get()
         config_str = hydra_cfg.job.config_name.split("/")[-1].replace(".yaml", "")
         episode_save_dir = os.path.join(save_chat_history_dir, date_str, config_str, str(episode_id))
-        
+
         if not os.path.exists(episode_save_dir):
             os.makedirs(episode_save_dir)
 
@@ -299,7 +299,7 @@ def group_discussion(
         with open(os.path.join(episode_save_dir, "leader_chat_history.json"), "w") as f:
             full_history = [leader.system_message] + leader.chat_history
             json.dump(full_history, f, indent=2, cls=CustomJSONEncoder)
-            
+
         for agent in agents:
             with open(os.path.join(episode_save_dir, f"{agent}_chat_history.json"), "w") as f:
                 agent_chat_history = agents[agent].chat_history
@@ -375,20 +375,20 @@ class MultiLLMPolicy(MultiPolicy):
                 # print("=============================================")
                 # print(text_goal)
                 # print("=============================================")
-                agent_arguments = group_discussion(
-                    robot_resume, scene_description, text_goal, episode_id=episode_id
-                )
-                envs_agent_arguments.append(agent_arguments)
+                # agent_arguments = group_discussion(
+                #     robot_resume, scene_description, text_goal, episode_id=episode_id
+                # )
+                # envs_agent_arguments.append(agent_arguments)
 
         # Stage 2: Individual policy actions
         agent_actions = []
         for agent_i, policy in enumerate(self._active_policies):
             # collect assigned tasks for agent_i across all envs
             agent_i_handle = f"agent_{agent_i}"
-            select_agent_arguments = [
-                agent_arguments[agent_i_handle] if agent_i_handle in arguments else None
-                for arguments in envs_agent_arguments
-            ]
+            # select_agent_arguments = [
+            #     agent_arguments[agent_i_handle] if agent_i_handle in arguments else None
+            #     for arguments in envs_agent_arguments
+            # ]
 
             agent_obs = self._update_obs_with_agent_prefix_fn(observations, agent_i)
 
@@ -400,7 +400,7 @@ class MultiLLMPolicy(MultiPolicy):
                     agent_masks[agent_i],
                     deterministic,
                     envs_text_context=envs_text_context,
-                    agent_arguments=select_agent_arguments,  # pass the task planning result to the policy
+                    # agent_arguments=select_agent_arguments,  # pass the task planning result to the policy
                 )
             )
 

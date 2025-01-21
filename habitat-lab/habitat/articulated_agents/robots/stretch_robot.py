@@ -48,9 +48,14 @@ class StretchRobot(MobileManipulator):
                     relative_transform=mn.Matrix4.rotation_y(mn.Deg(-90))
                     @ mn.Matrix4.rotation_z(mn.Deg(-90)),
                 ),
+                # "third": ArticulatedAgentCameraParams(
+                #     cam_offset_pos=mn.Vector3(-0.5, 1.7, -0.5),
+                #     cam_look_at_pos=mn.Vector3(1, 0.0, 0.75),
+                #     attached_link_id=-1,
+                # ),
                 "third": ArticulatedAgentCameraParams(
-                    cam_offset_pos=mn.Vector3(-0.5, 1.7, -0.5),
-                    cam_look_at_pos=mn.Vector3(1, 0.0, 0.75),
+                    cam_offset_pos=mn.Vector3(1., 0.9, 0.5),
+                    cam_look_at_pos=mn.Vector3(-1.5, 0.0, -0.75),
                     attached_link_id=-1,
                 ),
                 "top": ArticulatedAgentCameraParams(

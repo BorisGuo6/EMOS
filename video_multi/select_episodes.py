@@ -5,80 +5,12 @@ import re
 import argparse
 import os.path as osp
 
-parser = argparse.ArgumentParser()
-# necessary arguments
-parser.add_argument(
-    "--dir",
-    type=str,
-    default='',
-    help="Relative path to video path.",
-)
-parser.add_argument(
-    "--num",
-    type=str,
-    default='',
-    help="Relative path to video path.",
-)
-parser.add_argument(
-    "--test_num",
-    type=int,
-    default=34,
-    help="number supposed to be tested.",
-)
-args, _ = parser.parse_known_args()
 
-dir_num = args.num
-dir_name = args.dir + f'/{dir_num}'
+success = ['49', '32', '84', '0', '150', '319', '317', '279', '97', '41', '141', '81', '309', '326', '53', '217', '216', '202', '28', '253', '335', '196', '157', '236', '131', '155', '79']
+fail = ['185', '251', '302', '221', '290', '46', '213', '284', '153', '241', '198', '300', '238', '190', '51', '16', '67', '245', '24', '106', '88', '50', '287', '227', '226', '29', '195', '282', '273', '280', '232', '78', '329', '316', '194', '214', '274', '95', '135', '72', '186', '162', '163', '332', '177', '305', '212', '307', '240', '312', '243', '90', '301', '289', '197', '268', '152', '206', '299', '315', '250', '187']
+success_reverse = ['50', '332', '214', '326', '177', '335', '309', '186', '84', '157', '190', '155', '213', '329', '16', '227', '53', '49', '317', '106', '280', '196', '307', '152', '302', '238', '78']
+fail_reverse = ['79', '312', '88', '141', '51', '95', '300', '29', '198', '32', '245', '212', '90', '316', '253', '319', '150', '202', '290', '135', '268', '185', '287', '216', '194', '301', '289', '97', '279', '315', '284', '274', '162', '28', '232', '46', '197', '163', '24', '0', '236', '67', '251', '282', '217', '250', '206', '187', '226', '273', '153', '41', '243', '299', '221', '131', '241', '72', '81', '195', '240', '305']
 
-reversed_dir_name = args.dir + '_reverse' + f'/{dir_num}'
-file_names = os.listdir(dir_name)
-reversed_file_names = os.listdir(reversed_dir_name)
-
-# 正则表达式匹配文件名中的 episode 和 pddl_success 部分
-episode_pattern = r"episode=([0-9]+)"
-success_pattern = r"pddl_success=([0-9]*\.?[0-9]+)"
-
-# 初始化存储成功和失败的 episode 标号列表
-success = []
-fail = []
-success_reverse = []
-fail_reverse = []
-
-# 遍历文件名，提取成功率和 episode 标号
-for file_name in file_names:
-    episode_match = re.search(episode_pattern, file_name)
-    success_match = re.search(success_pattern, file_name)
-    if episode_match and success_match:
-        episode = episode_match.group(1)
-        success_rate = float(success_match.group(1))
-        if success_rate > 0:
-            success.append(episode)
-        else:
-            fail.append(episode)
-
-for file_name in reversed_file_names:
-    episode_match = re.search(episode_pattern, file_name)
-    success_match = re.search(success_pattern, file_name)
-    if episode_match and success_match:
-        episode = episode_match.group(1)
-        success_rate = float(success_match.group(1))
-        if success_rate > 0:
-            success_reverse.append(episode)
-        else:
-            fail_reverse.append(episode)
-
-# 输出成功和失败的 episode 标号
-# if success:
-#     print(f"{dir_name} 文件夹下成功的 episode 标号为: {success}")
-# else:
-#     print(f"{dir_name} 文件夹下没有找到成功的 episode。")
-# if fail:
-#     print(f"{dir_name} 文件夹下失败的 episode 标号为: {fail}")
-# else:
-#     print(f"{dir_name} 文件夹下没有找到失败的 episode。")
-
-print(f"{dir_name} 文件夹下未测试的编号 {[num for num in range(args.test_num) if str(num) not in (success + fail)]}")
-print(f"{dir_name} 文件夹下数量为{len(success) + len(fail)}")
 
 # if success_reverse:
 #     print(f"{reversed_dir_name} 文件夹下成功的 episode 标号为: {success_reverse}")
@@ -89,11 +21,9 @@ print(f"{dir_name} 文件夹下数量为{len(success) + len(fail)}")
 # else:
 #     print(f"{reversed_dir_name} 文件夹下没有找到失败的 episode。")
 
-print(f"{reversed_dir_name} 文件夹下未测试的编号 {[num for num in range(args.test_num) if str(num) not in (success_reverse + fail_reverse)]}")
-print(f"{reversed_dir_name} 文件夹下数量为{len(success_reverse) + len(fail_reverse)}")
 
 # 获取配置A成功和配置B失败的并集
-selected_result = list(set(list(set(success) & set(fail_reverse))) | set(list(set(success_reverse) & set(fail))))
+selected_result = list(set(list(set(success_reverse) & set(fail))))
 success_result = list(set(success) & set(success_reverse))
 fail_result = list(set(fail) & set(fail_reverse))
 

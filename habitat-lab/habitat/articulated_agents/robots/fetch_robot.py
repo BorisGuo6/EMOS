@@ -23,7 +23,12 @@ class FetchRobot(MobileManipulator):
                 [-0.45, -1.08, 0.1, 0.935, -0.001, 1.573, 0.005],
                 dtype=np.float32,
             ),
-            gripper_init_params=np.array([0.00, 0.00], dtype=np.float32),
+            # arm_init_params=np.array(
+            #     [90.0, 3.14, 135.0, -1.573, 0, -1.573, 0.0],
+            #     dtype=np.float32,
+            # ),
+            # gripper_init_params=np.array([0.00, 0.00], dtype=np.float32),
+            gripper_init_params=np.array([0.05, 0.05], dtype=np.float32),
             ee_offset=[mn.Vector3(0.08, 0, 0)],
             ee_links=[22],
             # ee_constraint=np.array([[[0.4, 1.2], [-0.7, 0.7], [0.25, 1.5]]]),
@@ -41,9 +46,14 @@ class FetchRobot(MobileManipulator):
                     cam_look_at_pos=mn.Vector3(0.75, 1.0, 0.0),
                     attached_link_id=-1,
                 ),
+                # "third": ArticulatedAgentCameraParams(
+                #     cam_offset_pos=mn.Vector3(-0.5, 1.7, -0.5),
+                #     cam_look_at_pos=mn.Vector3(1, 0.0, 0.75),
+                #     attached_link_id=-1,
+                # ),
                 "third": ArticulatedAgentCameraParams(
-                    cam_offset_pos=mn.Vector3(-0.5, 1.7, -0.5),
-                    cam_look_at_pos=mn.Vector3(1, 0.0, 0.75),
+                    cam_offset_pos=mn.Vector3(1., 0.9, 0.5),
+                    cam_look_at_pos=mn.Vector3(-1.5, 0.0, -0.75),
                     attached_link_id=-1,
                 ),
                 "top": ArticulatedAgentCameraParams(
@@ -112,9 +122,11 @@ class FetchRobot(MobileManipulator):
         super().update()
         # Fix the head.
         self._set_joint_pos(self.head_rot_jid, 0)
-        self._set_joint_pos(self.head_tilt_jid, np.pi / 2)
+        # self._set_joint_pos(self.head_tilt_jid, np.pi / 2)
+        self._set_joint_pos(self.head_tilt_jid, 0)
         # Fix the back
         fix_back_val = 0.15
+        # fix_back_val = 0.38615
         self._set_joint_pos(self.back_joint_id, fix_back_val)
 
         # set joint motors if dynamic
