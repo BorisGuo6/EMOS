@@ -1,0 +1,82 @@
+{
+    "episode_id: 199": {
+        "robot_at_object_0_success": 1.0,
+        "robot_at_object_1_success": 1.0,
+        "robot_at_receptacle_0_success": 1.0,
+        "robot_at_receptacle_1_success": 1.0,
+        "object_at_receptacle_0_success": 1.0,
+        "object_at_receptacle_1_success": 1.0
+    },
+    "episode_id: 62": {
+        "robot_at_object_0_success": 1.0,
+        "robot_at_object_1_success": 1.0,
+        "robot_at_receptacle_0_success": 1.0,
+        "robot_at_receptacle_1_success": 1.0,
+        "object_at_receptacle_0_success": 0.0,
+        "object_at_receptacle_1_success": 0.0
+    },
+    "episode_id: 227": {
+        "robot_at_object_0_success": 0.0,
+        "robot_at_object_1_success": 1.0,
+        "robot_at_receptacle_0_success": 1.0,
+        "robot_at_receptacle_1_success": 1.0,
+        "object_at_receptacle_0_success": 0.0,
+        "object_at_receptacle_1_success": 1.0
+    },
+    "episode_id: 170": {
+        "robot_at_object_0_success": 1.0,
+        "robot_at_object_1_success": 1.0,
+        "robot_at_receptacle_0_success": 1.0,
+        "robot_at_receptacle_1_success": 1.0,
+        "object_at_receptacle_0_success": 1.0,
+        "object_at_receptacle_1_success": 1.0
+    },
+    "episode_id: 155": {
+        "robot_at_object_0_success": 0.0,
+        "robot_at_object_1_success": 1.0,
+        "robot_at_receptacle_0_success": 1.0,
+        "robot_at_receptacle_1_success": 1.0,
+        "object_at_receptacle_0_success": 0.0,
+        "object_at_receptacle_1_success": 1.0
+    },
+    "episode_id: 301": {
+        "robot_at_object_0_success": 1.0,
+        "robot_at_object_1_success": 1.0,
+        "robot_at_receptacle_0_success": 1.0,
+        "robot_at_receptacle_1_success": 1.0,
+        "object_at_receptacle_0_success": 1.0,
+        "object_at_receptacle_1_success": 1.0
+    },
+    "episode_id: 91": {
+        "robot_at_object_0_success": 1.0,
+        "robot_at_object_1_success": 1.0,
+        "robot_at_receptacle_0_success": 1.0,
+        "robot_at_receptacle_1_success": 1.0,
+        "object_at_receptacle_0_success": 1.0,
+        "object_at_receptacle_1_success": 1.0
+    },
+    "episode_id: 165": {
+        "robot_at_object_0_success": 1.0,
+        "robot_at_object_1_success": 1.0,
+        "robot_at_receptacle_0_success": 1.0,
+        "robot_at_receptacle_1_success": 1.0,
+        "object_at_receptacle_0_success": 1.0,
+        "object_at_receptacle_1_success": 1.0
+    },
+    "episode_id: 106": {
+        "robot_at_object_0_success": 1.0,
+        "robot_at_object_1_success": 1.0,
+        "robot_at_receptacle_0_success": 1.0,
+        "robot_at_receptacle_1_success": 1.0,
+        "object_at_receptacle_0_success": 1.0,
+        "object_at_receptacle_1_success": 1.0
+    },
+    "episode_id: 109": {
+        "robot_at_object_0_success": 1.0,
+        "robot_at_object_1_success": 1.0,
+        "robot_at_receptacle_0_success": 1.0,
+        "robot_at_receptacle_1_success": 0.0,
+        "object_at_receptacle_0_success": 1.0,
+        "object_at_receptacle_1_success": 0.0
+    }
+}

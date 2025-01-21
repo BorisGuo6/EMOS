@@ -17,6 +17,7 @@ defaults:
   - /habitat/task/actions@habitat.task.actions.agent_0_oracle_nav_action: fetch_oracle_nav_action
   - /habitat/task/actions@habitat.task.actions.agent_0_oracle_nav_coord_action: oracle_nav_coord_action
   - /habitat/task/actions@habitat.task.actions.agent_0_arm_reset_action: arm_reset_action
+  - /habitat/task/actions@habitat.task.actions.agent_0_oracle_nav_coord_action: oracle_nav_coord_action
   - /habitat/task/actions@habitat.task.actions.agent_0_wait: wait
 
   - /habitat/task/actions@habitat.task.actions.agent_1_arm_pick_action: arm_pick_action
@@ -27,6 +28,7 @@ defaults:
   - /habitat/task/actions@habitat.task.actions.agent_1_oracle_nav_action: stretch_oracle_nav_action
   - /habitat/task/actions@habitat.task.actions.agent_1_oracle_nav_coord_action: oracle_nav_coord_action
   - /habitat/task/actions@habitat.task.actions.agent_1_arm_reset_action: arm_reset_action
+  - /habitat/task/actions@habitat.task.actions.agent_1_oracle_nav_coord_action: oracle_nav_coord_action
   - /habitat/task/actions@habitat.task.actions.agent_1_wait: wait
 
   - /habitat/task/measurements:
@@ -127,7 +129,7 @@ habitat:
   dataset:
     data_path: data/datasets/hssd/0/hssd_height_man.json.gz
     # new
-    randomize_agent_start: 0
+    randomize_agent_start: 1
     robot_config: data/robots/robot_configs/hssd/height_man.json
     mode: manipulation
     should_terminate_on_wait: False

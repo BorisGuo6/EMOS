@@ -14,7 +14,7 @@ class CustomJSONEncoder(json.JSONEncoder):
             # Pydantic models are not serializable by json.dump by default
             return dict(obj)
         return super().default(obj)
-        
+
 class OpenAIModel:
     def __init__(
         self,
@@ -38,7 +38,7 @@ class OpenAIModel:
         self.chat_history = []
         self.window_size = window_size
         self.model = model
-        self.client = openai.OpenAI()
+        self.client = openai.OpenAI
         self.planning_stage = discussion_stage
         self.code_execution = code_execution
         if self.code_execution:
@@ -50,25 +50,25 @@ class OpenAIModel:
         )
         self.tool_calls_enable = True if action_space else False
         self.token_usage = 0
-        
+
         # Debug logging
         self.enable_logging = enable_logging
         self.logging_file = logging_file
         self.save_on_each_chat = save_on_each_chat
         self.agent_name = agent_name
 
-    
+
     def __del__(self):
         """Save chat history to a file if logging is enabled"""
         if self.enable_logging:
             self.save_chat_history(self.logging_file)
-           
+
     def save_chat_history(self, file_path: str):
 
         with open(file_path, "w") as f:
             full_history = [self.system_message] + self.chat_history
             json.dump(full_history, f, indent=2, cls=CustomJSONEncoder)
-        
+
         episode_path = os.path.dirname(file_path)
         token_path = os.path.join(episode_path, "token_usage.json")
         if not os.path.exists(token_path):
@@ -143,17 +143,17 @@ class OpenAIModel:
                     # execution_results = []
                     # for code_block, code_type in codes:
                     #     execution_results.append(self.interpreter.run(code_block, code_type))
-                    
+
                     # result_content = "\n".join(execution_results)
                     # print("============Codes============")
                     # for idx, code in enumerate(codes):
                     #     print(f"Code block {idx}: {code[0]}")
-                    
+
                     merged_code = "\n".join([code_block for code_block, code_type in codes
                                              if code_type in self.interpreter._CODE_TYPE_MAPPING
                                              ])
                     result_content = self.interpreter.run(merged_code, "python")
-                
+
                     print("============merged code============")
                     print(merged_code)
                     print("============Results============")
@@ -212,10 +212,10 @@ class OpenAIModel:
             #     raise RuntimeError("agent output more than one action per step.")
             call = tool_calls[0]
             parameters = json.loads(call.function.arguments)
-            
+
             if self.save_on_each_chat:
                 self.save_chat_history(self.logging_file)
-            
+
             return (call.function.name, parameters)
 
         # function_call_res = []

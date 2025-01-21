@@ -1,0 +1,18 @@
+{
+    "episode_id: 83": {
+        "robot_at_object_0_success": 1.0,
+        "robot_at_receptacle_0_success": 1.0
+    },
+    "episode_id: 2": {
+        "robot_at_object_0_success": 1.0,
+        "robot_at_receptacle_0_success": 1.0
+    },
+    "episode_id: 32": {
+        "robot_at_object_0_success": 1.0,
+        "robot_at_receptacle_0_success": 1.0
+    },
+    "episode_id: 38": {
+        "robot_at_object_0_success": 1.0,
+        "robot_at_receptacle_0_success": 1.0
+    }
+}

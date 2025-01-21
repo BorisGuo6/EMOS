@@ -1,0 +1,398 @@
+{
+    "episode_id: 57": {
+        "robot_at_object_0_success": 0.0,
+        "robot_at_receptacle_0_success": 1.0
+    },
+    "episode_id: 31": {
+        "robot_at_object_0_success": 0.0,
+        "robot_at_receptacle_0_success": 1.0
+    },
+    "episode_id: 53": {
+        "robot_at_object_0_success": 0.0,
+        "robot_at_receptacle_0_success": 1.0
+    },
+    "episode_id: 73": {
+        "robot_at_object_0_success": 1.0,
+        "robot_at_receptacle_0_success": 1.0
+    },
+    "episode_id: 76": {
+        "robot_at_object_0_success": 1.0,
+        "robot_at_receptacle_0_success": 1.0
+    },
+    "episode_id: 34": {
+        "robot_at_object_0_success": 1.0,
+        "robot_at_receptacle_0_success": 1.0
+    },
+    "episode_id: 72": {
+        "robot_at_object_0_success": 1.0,
+        "robot_at_receptacle_0_success": 1.0
+    },
+    "episode_id: 67": {
+        "robot_at_object_0_success": 1.0,
+        "robot_at_receptacle_0_success": 1.0
+    },
+    "episode_id: 80": {
+        "robot_at_object_0_success": 1.0,
+        "robot_at_receptacle_0_success": 1.0
+    },
+    "episode_id: 9": {
+        "robot_at_object_0_success": 1.0,
+        "robot_at_receptacle_0_success": 1.0
+    },
+    "episode_id: 42": {
+        "robot_at_object_0_success": 1.0,
+        "robot_at_receptacle_0_success": 1.0
+    },
+    "episode_id: 82": {
+        "robot_at_object_0_success": 1.0,
+        "robot_at_receptacle_0_success": 1.0
+    },
+    "episode_id: 27": {
+        "robot_at_object_0_success": 1.0,
+        "robot_at_receptacle_0_success": 1.0
+    },
+    "episode_id: 56": {
+        "robot_at_object_0_success": 0.0,
+        "robot_at_receptacle_0_success": 0.0
+    },
+    "episode_id: 61": {
+        "robot_at_object_0_success": 1.0,
+        "robot_at_receptacle_0_success": 1.0
+    },
+    "episode_id: 35": {
+        "robot_at_object_0_success": 0.0,
+        "robot_at_receptacle_0_success": 0.0
+    },
+    "episode_id: 51": {
+        "robot_at_object_0_success": 1.0,
+        "robot_at_receptacle_0_success": 1.0
+    },
+    "episode_id: 6": {
+        "robot_at_object_0_success": 1.0,
+        "robot_at_receptacle_0_success": 0.0
+    },
+    "episode_id: 17": {
+        "robot_at_object_0_success": 1.0,
+        "robot_at_receptacle_0_success": 1.0
+    },
+    "episode_id: 90": {
+        "robot_at_object_0_success": 1.0,
+        "robot_at_receptacle_0_success": 0.0
+    },
+    "episode_id: 62": {
+        "robot_at_object_0_success": 1.0,
+        "robot_at_receptacle_0_success": 0.0
+    },
+    "episode_id: 89": {
+        "robot_at_object_0_success": 1.0,
+        "robot_at_receptacle_0_success": 1.0
+    },
+    "episode_id: 60": {
+        "robot_at_object_0_success": 1.0,
+        "robot_at_receptacle_0_success": 1.0
+    },
+    "episode_id: 74": {
+        "robot_at_object_0_success": 1.0,
+        "robot_at_receptacle_0_success": 1.0
+    },
+    "episode_id: 83": {
+        "robot_at_object_0_success": 1.0,
+        "robot_at_receptacle_0_success": 1.0
+    },
+    "episode_id: 2": {
+        "robot_at_object_0_success": 1.0,
+        "robot_at_receptacle_0_success": 1.0
+    },
+    "episode_id: 16": {
+        "robot_at_object_0_success": 1.0,
+        "robot_at_receptacle_0_success": 1.0
+    },
+    "episode_id: 7": {
+        "robot_at_object_0_success": 1.0,
+        "robot_at_receptacle_0_success": 1.0
+    },
+    "episode_id: 65": {
+        "robot_at_object_0_success": 1.0,
+        "robot_at_receptacle_0_success": 1.0
+    },
+    "episode_id: 32": {
+        "robot_at_object_0_success": 1.0,
+        "robot_at_receptacle_0_success": 1.0
+    },
+    "episode_id: 19": {
+        "robot_at_object_0_success": 1.0,
+        "robot_at_receptacle_0_success": 1.0
+    },
+    "episode_id: 30": {
+        "robot_at_object_0_success": 0.0,
+        "robot_at_receptacle_0_success": 1.0
+    },
+    "episode_id: 94": {
+        "robot_at_object_0_success": 1.0,
+        "robot_at_receptacle_0_success": 0.0
+    },
+    "episode_id: 81": {
+        "robot_at_object_0_success": 1.0,
+        "robot_at_receptacle_0_success": 0.0
+    },
+    "episode_id: 26": {
+        "robot_at_object_0_success": 1.0,
+        "robot_at_receptacle_0_success": 1.0
+    },
+    "episode_id: 86": {
+        "robot_at_object_0_success": 1.0,
+        "robot_at_receptacle_0_success": 1.0
+    },
+    "episode_id: 69": {
+        "robot_at_object_0_success": 0.0,
+        "robot_at_receptacle_0_success": 0.0
+    },
+    "episode_id: 36": {
+        "robot_at_object_0_success": 0.0,
+        "robot_at_receptacle_0_success": 1.0
+    },
+    "episode_id: 52": {
+        "robot_at_object_0_success": 0.0,
+        "robot_at_receptacle_0_success": 1.0
+    },
+    "episode_id: 10": {
+        "robot_at_object_0_success": 0.0,
+        "robot_at_receptacle_0_success": 0.0
+    },
+    "episode_id: 79": {
+        "robot_at_object_0_success": 1.0,
+        "robot_at_receptacle_0_success": 0.0
+    },
+    "episode_id: 71": {
+        "robot_at_object_0_success": 1.0,
+        "robot_at_receptacle_0_success": 1.0
+    },
+    "episode_id: 78": {
+        "robot_at_object_0_success": 0.0,
+        "robot_at_receptacle_0_success": 0.0
+    },
+    "episode_id: 20": {
+        "robot_at_object_0_success": 1.0,
+        "robot_at_receptacle_0_success": 0.0
+    },
+    "episode_id: 66": {
+        "robot_at_object_0_success": 1.0,
+        "robot_at_receptacle_0_success": 1.0
+    },
+    "episode_id: 38": {
+        "robot_at_object_0_success": 1.0,
+        "robot_at_receptacle_0_success": 1.0
+    },
+    "episode_id: 64": {
+        "robot_at_object_0_success": 1.0,
+        "robot_at_receptacle_0_success": 1.0
+    },
+    "episode_id: 55": {
+        "robot_at_object_0_success": 0.0,
+        "robot_at_receptacle_0_success": 1.0
+    },
+    "episode_id: 13": {
+        "robot_at_object_0_success": 1.0,
+        "robot_at_receptacle_0_success": 1.0
+    },
+    "episode_id: 75": {
+        "robot_at_object_0_success": 1.0,
+        "robot_at_receptacle_0_success": 1.0
+    },
+    "episode_id: 48": {
+        "robot_at_object_0_success": 0.0,
+        "robot_at_receptacle_0_success": 1.0
+    },
+    "episode_id: 59": {
+        "robot_at_object_0_success": 1.0,
+        "robot_at_receptacle_0_success": 1.0
+    },
+    "episode_id: 43": {
+        "robot_at_object_0_success": 1.0,
+        "robot_at_receptacle_0_success": 1.0
+    },
+    "episode_id: 45": {
+        "robot_at_object_0_success": 1.0,
+        "robot_at_receptacle_0_success": 0.0
+    },
+    "episode_id: 14": {
+        "robot_at_object_0_success": 1.0,
+        "robot_at_receptacle_0_success": 1.0
+    },
+    "episode_id: 70": {
+        "robot_at_object_0_success": 0.0,
+        "robot_at_receptacle_0_success": 0.0
+    },
+    "episode_id: 0": {
+        "robot_at_object_0_success": 1.0,
+        "robot_at_receptacle_0_success": 1.0
+    },
+    "episode_id: 85": {
+        "robot_at_object_0_success": 1.0,
+        "robot_at_receptacle_0_success": 1.0
+    },
+    "episode_id: 8": {
+        "robot_at_object_0_success": 1.0,
+        "robot_at_receptacle_0_success": 1.0
+    },
+    "episode_id: 28": {
+        "robot_at_object_0_success": 1.0,
+        "robot_at_receptacle_0_success": 1.0
+    },
+    "episode_id: 92": {
+        "robot_at_object_0_success": 0.0,
+        "robot_at_receptacle_0_success": 1.0
+    },
+    "episode_id: 25": {
+        "robot_at_object_0_success": 1.0,
+        "robot_at_receptacle_0_success": 1.0
+    },
+    "episode_id: 77": {
+        "robot_at_object_0_success": 1.0,
+        "robot_at_receptacle_0_success": 1.0
+    },
+    "episode_id: 24": {
+        "robot_at_object_0_success": 1.0,
+        "robot_at_receptacle_0_success": 0.0
+    },
+    "episode_id: 96": {
+        "robot_at_object_0_success": 1.0,
+        "robot_at_receptacle_0_success": 0.0
+    },
+    "episode_id: 88": {
+        "robot_at_object_0_success": 1.0,
+        "robot_at_receptacle_0_success": 1.0
+    },
+    "episode_id: 21": {
+        "robot_at_object_0_success": 0.0,
+        "robot_at_receptacle_0_success": 1.0
+    },
+    "episode_id: 3": {
+        "robot_at_object_0_success": 1.0,
+        "robot_at_receptacle_0_success": 0.0
+    },
+    "episode_id: 87": {
+        "robot_at_object_0_success": 0.0,
+        "robot_at_receptacle_0_success": 1.0
+    },
+    "episode_id: 97": {
+        "robot_at_object_0_success": 0.0,
+        "robot_at_receptacle_0_success": 1.0
+    },
+    "episode_id: 11": {
+        "robot_at_object_0_success": 1.0,
+        "robot_at_receptacle_0_success": 0.0
+    },
+    "episode_id: 4": {
+        "robot_at_object_0_success": 1.0,
+        "robot_at_receptacle_0_success": 1.0
+    },
+    "episode_id: 63": {
+        "robot_at_object_0_success": 1.0,
+        "robot_at_receptacle_0_success": 0.0
+    },
+    "episode_id: 37": {
+        "robot_at_object_0_success": 1.0,
+        "robot_at_receptacle_0_success": 0.0
+    },
+    "episode_id: 95": {
+        "robot_at_object_0_success": 1.0,
+        "robot_at_receptacle_0_success": 1.0
+    },
+    "episode_id: 12": {
+        "robot_at_object_0_success": 1.0,
+        "robot_at_receptacle_0_success": 1.0
+    },
+    "episode_id: 93": {
+        "robot_at_object_0_success": 1.0,
+        "robot_at_receptacle_0_success": 1.0
+    },
+    "episode_id: 50": {
+        "robot_at_object_0_success": 1.0,
+        "robot_at_receptacle_0_success": 0.0
+    },
+    "episode_id: 1": {
+        "robot_at_object_0_success": 1.0,
+        "robot_at_receptacle_0_success": 0.0
+    },
+    "episode_id: 47": {
+        "robot_at_object_0_success": 1.0,
+        "robot_at_receptacle_0_success": 1.0
+    },
+    "episode_id: 68": {
+        "robot_at_object_0_success": 1.0,
+        "robot_at_receptacle_0_success": 1.0
+    },
+    "episode_id: 5": {
+        "robot_at_object_0_success": 1.0,
+        "robot_at_receptacle_0_success": 0.0
+    },
+    "episode_id: 23": {
+        "robot_at_object_0_success": 1.0,
+        "robot_at_receptacle_0_success": 1.0
+    },
+    "episode_id: 58": {
+        "robot_at_object_0_success": 1.0,
+        "robot_at_receptacle_0_success": 1.0
+    },
+    "episode_id: 41": {
+        "robot_at_object_0_success": 1.0,
+        "robot_at_receptacle_0_success": 1.0
+    },
+    "episode_id: 46": {
+        "robot_at_object_0_success": 1.0,
+        "robot_at_receptacle_0_success": 1.0
+    },
+    "episode_id: 40": {
+        "robot_at_object_0_success": 1.0,
+        "robot_at_receptacle_0_success": 0.0
+    },
+    "episode_id: 54": {
+        "robot_at_object_0_success": 1.0,
+        "robot_at_receptacle_0_success": 1.0
+    },
+    "episode_id: 49": {
+        "robot_at_object_0_success": 1.0,
+        "robot_at_receptacle_0_success": 1.0
+    },
+    "episode_id: 29": {
+        "robot_at_object_0_success": 1.0,
+        "robot_at_receptacle_0_success": 1.0
+    },
+    "episode_id: 99": {
+        "robot_at_object_0_success": 0.0,
+        "robot_at_receptacle_0_success": 1.0
+    },
+    "episode_id: 22": {
+        "robot_at_object_0_success": 1.0,
+        "robot_at_receptacle_0_success": 1.0
+    },
+    "episode_id: 39": {
+        "robot_at_object_0_success": 1.0,
+        "robot_at_receptacle_0_success": 1.0
+    },
+    "episode_id: 33": {
+        "robot_at_object_0_success": 1.0,
+        "robot_at_receptacle_0_success": 0.0
+    },
+    "episode_id: 15": {
+        "robot_at_object_0_success": 0.0,
+        "robot_at_receptacle_0_success": 1.0
+    },
+    "episode_id: 91": {
+        "robot_at_object_0_success": 1.0,
+        "robot_at_receptacle_0_success": 1.0
+    },
+    "episode_id: 98": {
+        "robot_at_object_0_success": 0.0,
+        "robot_at_receptacle_0_success": 1.0
+    },
+    "episode_id: 44": {
+        "robot_at_object_0_success": 1.0,
+        "robot_at_receptacle_0_success": 0.0
+    },
+    "episode_id: 18": {
+        "robot_at_object_0_success": 1.0,
+        "robot_at_receptacle_0_success": 1.0
+    }
+}

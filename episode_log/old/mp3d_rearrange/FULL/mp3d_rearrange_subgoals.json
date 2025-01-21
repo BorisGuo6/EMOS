@@ -1,0 +1,10 @@
+{
+    "episode_id: 144": {
+        "robot_at_object_0_success": 0.0,
+        "robot_at_object_1_success": 1.0,
+        "robot_at_receptacle_0_success": 1.0,
+        "robot_at_receptacle_1_success": 1.0,
+        "object_at_receptacle_0_success": 0.0,
+        "object_at_receptacle_1_success": 0.0
+    }
+}

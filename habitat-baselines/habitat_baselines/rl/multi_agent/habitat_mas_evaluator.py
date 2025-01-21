@@ -92,7 +92,7 @@ class HabitatMASEvaluator(Evaluator):
                 [
                     observations_to_image(
                         {k: v[env_idx] for k, v in batch.items() if
-                             k != "agent_0_fourth_rgb" and k != "agent_1_fourth_rgb"}, {}, config,
+                             "fourth_rgb" not in k and "third" in k}, {}, config,
                         0,
                     )
                 ]
@@ -159,237 +159,241 @@ class HabitatMASEvaluator(Evaluator):
                     for i in range(envs.num_envs):
                         pddl_text_goal_np = envs_pddl_text_goal_np[i, ...]
                         envs_text_context[i]['pddl_text_goal'] = ''.join(str(pddl_text_goal_np, encoding='UTF-8'))
-                
+
                 for i in range(envs.num_envs):
                     # also add the debug/ logging info to the text context for convenience
                     envs_text_context[i]['episode_id'] = current_episodes_info[i].episode_id
 
-            space_lengths = {}
-            n_agents = len(config.habitat.simulator.agents)
-            if n_agents > 1:
-                space_lengths = {
-                    "index_len_recurrent_hidden_states": hidden_state_lens,
-                    "index_len_prev_actions": action_space_lens,
-                }
-            with inference_mode():
-                action_data = agent.actor_critic.act(
-                    batch,
-                    test_recurrent_hidden_states,
-                    prev_actions,
-                    not_done_masks,
-                    deterministic=False,
-                    envs_text_context=envs_text_context,
-                    **space_lengths,
-                )
-                if action_data.should_inserts is None:
-                    test_recurrent_hidden_states = (
-                        action_data.rnn_hidden_states
+            # try:
+            if True:
+                space_lengths = {}
+                n_agents = len(config.habitat.simulator.agents)
+                if n_agents > 1:
+                    space_lengths = {
+                        "index_len_recurrent_hidden_states": hidden_state_lens,
+                        "index_len_prev_actions": action_space_lens,
+                    }
+                with inference_mode():
+                    action_data = agent.actor_critic.act(
+                        batch,
+                        test_recurrent_hidden_states,
+                        prev_actions,
+                        not_done_masks,
+                        deterministic=False,
+                        envs_text_context=envs_text_context,
+                        **space_lengths,
                     )
-                    prev_actions.copy_(action_data.actions)  # type: ignore
-                else:
-                    agent.actor_critic.update_hidden_state(
-                        test_recurrent_hidden_states, prev_actions, action_data
-                    )
-
-            # NB: Move actions to CPU.  If CUDA tensors are
-            # sent in to env.step(), that will create CUDA contexts
-            # in the subprocesses.
-            if is_continuous_action_space(env_spec.action_space):
-                # Clipping actions to the specified limits
-                step_data = [
-                    np.clip(
-                        a.numpy(),
-                        env_spec.action_space.low,
-                        env_spec.action_space.high,
-                    )
-                    for a in action_data.env_actions.cpu()
-                ]
-            else:
-                step_data = [a.item() for a in action_data.env_actions.cpu()]
-
-            outputs = envs.step(step_data)
-
-            observations, rewards_l, dones, infos = [
-                list(x) for x in zip(*outputs)
-            ]
-            # Note that `policy_infos` represents the information about the
-            # action BEFORE `observations` (the action used to transition to
-            # `observations`).
-            policy_infos = agent.actor_critic.get_extra(
-                action_data, infos, dones
-            )
-            for i in range(len(policy_infos)):
-                infos[i].update(policy_infos[i])
-
-            observations = envs.post_step(observations)
-            batch = batch_obs(  # type: ignore
-                observations,
-                device=device,
-            )
-            batch = apply_obs_transforms_batch(batch, obs_transforms)  # type: ignore
-
-            not_done_masks = torch.tensor(
-                [[not done] for done in dones],
-                dtype=torch.bool,
-                device="cpu",
-            ).repeat(1, *agent.masks_shape)
-
-            rewards = torch.tensor(
-                rewards_l, dtype=torch.float, device="cpu"
-            ).unsqueeze(1)
-            current_episode_reward += rewards
-            next_episodes_info = envs.current_episodes()
-            envs_to_pause = []
-            n_envs = envs.num_envs
-            for i in range(n_envs):
-                if (
-                    ep_eval_count[
-                        (
-                            next_episodes_info[i].scene_id,
-                            next_episodes_info[i].episode_id,
+                    if action_data.should_inserts is None:
+                        test_recurrent_hidden_states = (
+                            action_data.rnn_hidden_states
                         )
+                        prev_actions.copy_(action_data.actions)  # type: ignore
+                    else:
+                        agent.actor_critic.update_hidden_state(
+                            test_recurrent_hidden_states, prev_actions, action_data
+                        )
+
+                # NB: Move actions to CPU.  If CUDA tensors are
+                # sent in to env.step(), that will create CUDA contexts
+                # in the subprocesses.
+                if is_continuous_action_space(env_spec.action_space):
+                    # Clipping actions to the specified limits
+                    step_data = [
+                        np.clip(
+                            a.numpy(),
+                            env_spec.action_space.low,
+                            env_spec.action_space.high,
+                        )
+                        for a in action_data.env_actions.cpu()
                     ]
-                    == evals_per_ep
-                ):
-                    envs_to_pause.append(i)
+                else:
+                    step_data = [a.item() for a in action_data.env_actions.cpu()]
 
-                # Exclude the keys from `_rank0_keys` from displaying in the video
-                disp_info = {
-                    k: v for k, v in infos[i].items() if k not in rank0_keys
-                }
+                outputs = envs.step(step_data)
 
-                if len(config.habitat_baselines.eval.video_option) > 0:
-                    # TODO move normalization / channel changing out of the policy and undo it here
-                    frame = observations_to_image(
-                        {k: v[i] for k, v in batch.items()if
-                         k != "agent_0_fourth_rgb" and k != "agent_1_fourth_rgb"}, disp_info,
-                        config, len(rgb_frames[0]),
-                        episode_id=current_episodes_info[i].episode_id,
-                    )
-                    if config.habitat_baselines.eval.generate_fourth_rgb:
-                        frame_fourth = observations_to_image(
-                            {k: v[i] for k, v in batch.items() if
-                             k == "agent_0_fourth_rgb"}, infos[i],
-                            config, len(rgb_frames_fourth[0]),
-                            episode_id=current_episodes_info[i].episode_id,
-                        )
-                    if not not_done_masks[i].any().item():
-                        # The last frame corresponds to the first frame of the next episode
-                        # but the info is correct. So we use a black frame
-                        final_frame = observations_to_image(
-                            {k: v[i] * 0.0 for k, v in batch.items()if
-                             k != "agent_0_fourth_rgb" and k != "agent_1_fourth_rgb"},
-                            disp_info, config,
-                            frame_id=len(rgb_frames[0]),
+                observations, rewards_l, dones, infos = [
+                    list(x) for x in zip(*outputs)
+                ]
+                # Note that `policy_infos` represents the information about the
+                # action BEFORE `observations` (the action used to transition to
+                # `observations`).
+                policy_infos = agent.actor_critic.get_extra(
+                    action_data, infos, dones
+                )
+                for i in range(len(policy_infos)):
+                    infos[i].update(policy_infos[i])
+
+                observations = envs.post_step(observations)
+                batch = batch_obs(  # type: ignore
+                    observations,
+                    device=device,
+                )
+                batch = apply_obs_transforms_batch(batch, obs_transforms)  # type: ignore
+
+                not_done_masks = torch.tensor(
+                    [[not done] for done in dones],
+                    dtype=torch.bool,
+                    device="cpu",
+                ).repeat(1, *agent.masks_shape)
+
+                rewards = torch.tensor(
+                    rewards_l, dtype=torch.float, device="cpu"
+                ).unsqueeze(1)
+                current_episode_reward += rewards
+                next_episodes_info = envs.current_episodes()
+                envs_to_pause = []
+                n_envs = envs.num_envs
+                for i in range(n_envs):
+                    if (
+                        ep_eval_count[
+                            (
+                                next_episodes_info[i].scene_id,
+                                next_episodes_info[i].episode_id,
+                            )
+                        ]
+                        == evals_per_ep
+                    ):
+                        envs_to_pause.append(i)
+
+                    # Exclude the keys from `_rank0_keys` from displaying in the video
+                    disp_info = {
+                        k: v for k, v in infos[i].items() if k not in rank0_keys
+                    }
+
+                    if len(config.habitat_baselines.eval.video_option) > 0:
+                        # TODO move normalization / channel changing out of the policy and undo it here
+                        frame = observations_to_image(
+                            {k: v[i] for k, v in batch.items()if
+                             "fourth_rgb" not in k and "third" in k}, disp_info,
+                            config, len(rgb_frames[0]),
                             episode_id=current_episodes_info[i].episode_id,
                         )
                         if config.habitat_baselines.eval.generate_fourth_rgb:
-                            final_frame_fourth = observations_to_image(
+                            frame_fourth = observations_to_image(
                                 {k: v[i] for k, v in batch.items() if
                                  k == "agent_0_fourth_rgb"}, infos[i],
                                 config, len(rgb_frames_fourth[0]),
                                 episode_id=current_episodes_info[i].episode_id,
                             )
-                        final_frame = overlay_frame(final_frame, disp_info)
-                        rgb_frames[i].append(final_frame)
-                        # The starting frame of the next episode will be the final element..
-                        rgb_frames[i].append(frame)
-                        if config.habitat_baselines.eval.generate_fourth_rgb:
-                            final_frame_fourth = overlay_frame(final_frame_fourth, infos[i])
-                            rgb_frames_fourth[i].append(final_frame_fourth)
-                            rgb_frames_fourth[i].append(frame_fourth)
-                    else:
-                        frame = overlay_frame(frame, disp_info)
-                        rgb_frames[i].append(frame)
-                        if config.habitat_baselines.eval.generate_fourth_rgb:
-                            frame_fourth = overlay_frame(frame_fourth, infos[i])
-                            rgb_frames_fourth[i].append(frame_fourth)
+                        if not not_done_masks[i].any().item():
+                            # The last frame corresponds to the first frame of the next episode
+                            # but the info is correct. So we use a black frame
+                            final_frame = observations_to_image(
+                                {k: v[i] * 0.0 for k, v in batch.items()if
+                                 "fourth_rgb" not in k and "third" in k},
+                                disp_info, config,
+                                frame_id=len(rgb_frames[0]),
+                                episode_id=current_episodes_info[i].episode_id,
+                            )
+                            if config.habitat_baselines.eval.generate_fourth_rgb:
+                                final_frame_fourth = observations_to_image(
+                                    {k: v[i] for k, v in batch.items() if
+                                     k == "agent_0_fourth_rgb"}, infos[i],
+                                    config, len(rgb_frames_fourth[0]),
+                                    episode_id=current_episodes_info[i].episode_id,
+                                )
+                            final_frame = overlay_frame(final_frame, disp_info)
+                            rgb_frames[i].append(final_frame)
+                            # The starting frame of the next episode will be the final element..
+                            rgb_frames[i].append(frame)
+                            if config.habitat_baselines.eval.generate_fourth_rgb:
+                                final_frame_fourth = overlay_frame(final_frame_fourth, infos[i])
+                                rgb_frames_fourth[i].append(final_frame_fourth)
+                                rgb_frames_fourth[i].append(frame_fourth)
+                        else:
+                            frame = overlay_frame(frame, disp_info)
+                            rgb_frames[i].append(frame)
+                            if config.habitat_baselines.eval.generate_fourth_rgb:
+                                frame_fourth = overlay_frame(frame_fourth, infos[i])
+                                rgb_frames_fourth[i].append(frame_fourth)
 
-                # episode ended
-                if not not_done_masks[i].any().item():
-                    pbar.update()
-                    episode_stats = {
-                        "reward": current_episode_reward[i].item()
-                    }
-                    episode_stats.update(extract_scalars_from_info(infos[i]))
-                    current_episode_reward[i] = 0
-                    k = (
-                        current_episodes_info[i].scene_id,
-                        current_episodes_info[i].episode_id,
-                    )
-                    ep_eval_count[k] += 1
-                    # use scene_id + episode_id as unique id for storing stats
-                    stats_episodes[(k, ep_eval_count[k])] = episode_stats
+                    # episode ended
+                    if not not_done_masks[i].any().item():
+                        pbar.update()
+                        episode_stats = {
+                            "reward": current_episode_reward[i].item()
+                        }
+                        episode_stats.update(extract_scalars_from_info(infos[i]))
+                        current_episode_reward[i] = 0
+                        k = (
+                            current_episodes_info[i].scene_id,
+                            current_episodes_info[i].episode_id,
+                        )
+                        ep_eval_count[k] += 1
+                        # use scene_id + episode_id as unique id for storing stats
+                        stats_episodes[(k, ep_eval_count[k])] = episode_stats
 
-                    # clear the prev_actions and recurrent_hidden_states
-                    prev_actions[i] = 0
-                    test_recurrent_hidden_states[i] = 0
+                        # clear the prev_actions and recurrent_hidden_states
+                        prev_actions[i] = 0
+                        test_recurrent_hidden_states[i] = 0
 
-                    if len(config.habitat_baselines.eval.video_option) > 0:
-                        if config.habitat_baselines.eval.generate_fourth_rgb:
+                        if len(config.habitat_baselines.eval.video_option) > 0:
+                            if config.habitat_baselines.eval.generate_fourth_rgb:
+                                generate_video(
+                                    video_option=config.habitat_baselines.eval.video_option,
+                                    video_dir=config.habitat_baselines.video_dir,
+                                    images=rgb_frames_fourth[i][:-1],
+                                    episode_id=f"{current_episodes_info[i].episode_id}_{ep_eval_count[k]}_fourth",
+                                    checkpoint_idx=checkpoint_index,
+                                    metrics=extract_scalars_from_info(disp_info),
+                                    fps=config.habitat_baselines.video_fps,
+                                    tb_writer=writer,
+                                    keys_to_include_in_name=config.habitat_baselines.eval_keys_to_include_in_name,
+                                )
                             generate_video(
                                 video_option=config.habitat_baselines.eval.video_option,
                                 video_dir=config.habitat_baselines.video_dir,
-                                images=rgb_frames_fourth[i][:-1],
-                                episode_id=f"{current_episodes_info[i].episode_id}_{ep_eval_count[k]}_fourth",
+                                # Since the final frame is the start frame of the next episode.
+                                images=rgb_frames[i][:-1],
+                                episode_id=f"{current_episodes_info[i].episode_id}_{ep_eval_count[k]}",
                                 checkpoint_idx=checkpoint_index,
                                 metrics=extract_scalars_from_info(disp_info),
                                 fps=config.habitat_baselines.video_fps,
                                 tb_writer=writer,
                                 keys_to_include_in_name=config.habitat_baselines.eval_keys_to_include_in_name,
                             )
-                        generate_video(
-                            video_option=config.habitat_baselines.eval.video_option,
-                            video_dir=config.habitat_baselines.video_dir,
-                            # Since the final frame is the start frame of the next episode.
-                            images=rgb_frames[i][:-1],
-                            episode_id=f"{current_episodes_info[i].episode_id}_{ep_eval_count[k]}",
-                            checkpoint_idx=checkpoint_index,
-                            metrics=extract_scalars_from_info(disp_info),
-                            fps=config.habitat_baselines.video_fps,
-                            tb_writer=writer,
-                            keys_to_include_in_name=config.habitat_baselines.eval_keys_to_include_in_name,
-                        )
 
-                        # Since the starting frame of the next episode is the final frame.
-                        if config.habitat_baselines.eval.generate_fourth_rgb:
-                            rgb_frames_fourth[i] = rgb_frames_fourth[i][-1:]
-                        rgb_frames[i] = rgb_frames[i][-1:]
+                            # Since the starting frame of the next episode is the final frame.
+                            if config.habitat_baselines.eval.generate_fourth_rgb:
+                                rgb_frames_fourth[i] = rgb_frames_fourth[i][-1:]
+                            rgb_frames[i] = rgb_frames[i][-1:]
 
-                    gfx_str = infos[i].get(GfxReplayMeasure.cls_uuid, "")
-                    if gfx_str != "":
-                        write_gfx_replay(
-                            gfx_str,
-                            config.habitat.task,
-                            current_episodes_info[i].episode_id,
-                        )
+                        gfx_str = infos[i].get(GfxReplayMeasure.cls_uuid, "")
+                        if gfx_str != "":
+                            write_gfx_replay(
+                                gfx_str,
+                                config.habitat.task,
+                                current_episodes_info[i].episode_id,
+                            )
 
-            not_done_masks = not_done_masks.to(device=device)
-            (
-                envs,
-                test_recurrent_hidden_states,
-                not_done_masks,
-                current_episode_reward,
-                prev_actions,
-                batch,
-                rgb_frames,
-            ) = pause_envs(
-                envs_to_pause,
-                envs,
-                test_recurrent_hidden_states,
-                not_done_masks,
-                current_episode_reward,
-                prev_actions,
-                batch,
-                rgb_frames,
-            )
+                not_done_masks = not_done_masks.to(device=device)
+                (
+                    envs,
+                    test_recurrent_hidden_states,
+                    not_done_masks,
+                    current_episode_reward,
+                    prev_actions,
+                    batch,
+                    rgb_frames,
+                ) = pause_envs(
+                    envs_to_pause,
+                    envs,
+                    test_recurrent_hidden_states,
+                    not_done_masks,
+                    current_episode_reward,
+                    prev_actions,
+                    batch,
+                    rgb_frames,
+                )
 
-            # We pause the statefull parameters in the policy.
-            # We only do this if there are envs to pause to reduce the overhead.
-            # In addition, HRL policy requires the solution_actions to be non-empty, and
-            # empty list of envs_to_pause will raise an error.
-            if any(envs_to_pause):
-                agent.actor_critic.on_envs_pause(envs_to_pause)
+                # We pause the statefull parameters in the policy.
+                # We only do this if there are envs to pause to reduce the overhead.
+                # In addition, HRL policy requires the solution_actions to be non-empty, and
+                # empty list of envs_to_pause will raise an error.
+                if any(envs_to_pause):
+                    agent.actor_critic.on_envs_pause(envs_to_pause)
+            # except Exception as e:
+            #     print(e)
 
         pbar.close()
         assert (
